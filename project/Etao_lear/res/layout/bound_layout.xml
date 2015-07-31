@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="16dp" >
+
+    <Button
+        android:id="@+id/btn_scroll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="下滑" />
+
+    <Button
+        android:id="@+id/btn_reset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="重置" />
+
+    <com.etao.test.widget.BounceView
+        android:id="@+id/bv_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#99dddddd" >
+
+        <TextView
+            android:id="@+id/tv_tag"
+            android:background="#999188f0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+    </com.etao.test.widget.BounceView>
+
+</LinearLayout>
