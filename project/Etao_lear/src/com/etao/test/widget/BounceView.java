@@ -70,6 +70,21 @@ public class BounceView extends FrameLayout {
 		System.out.println("overscroll  "+ scrollY);
 	}
 
+	/* (non-Javadoc)
+	 * @see android.view.View#computeVerticalScrollRange()
+	 */
+	@Override
+	protected int computeVerticalScrollRange() {
+		return super.computeVerticalScrollRange();
+	}
+	/* (non-Javadoc)
+	 * @see android.view.View#computeHorizontalScrollExtent()
+	 */
+	@Override
+	protected int computeHorizontalScrollExtent() {
+		// TODO Auto-generated method stub
+		return super.computeHorizontalScrollExtent();
+	}
 	public void setPostion() {
 		scrollBy(0, -100);
 	}
