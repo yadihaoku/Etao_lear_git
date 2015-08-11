@@ -29,6 +29,7 @@ public class ScrollerActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+//		setContentView(R.layout.sys_scrollview);
 		setContentView(R.layout.bound_layout);
 
 		findViewById(R.id.btn_reset).setOnClickListener(this);

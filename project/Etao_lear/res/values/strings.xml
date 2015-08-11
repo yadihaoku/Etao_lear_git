@@ -2,4 +2,8 @@
 
     <string name="app_name">Etao_lear</string>
 
+    <string name="very_long_test">"dsa\nads\ndsa\nds
+        \ndsa\nsad\nsd\nasd\nasd\nds\nsd\nsa\nadsssssssss
+        ss\ndas\nasddsa\nads\ndsa\ndsa\nsad\nsd\nasd\nasd\nds\nsd\nsa\nadsssssssssss\nd
+s\nasddsa\nads\ndsa\ndsa\nsad\nsd\nasd\nasd\nds\nsd\nsa\nadssssssssss\n==============================="</string>
 </resources>

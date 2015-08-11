@@ -7,13 +7,13 @@
 
     <Button
         android:id="@+id/btn_scroll"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="下滑" />
 
     <Button
         android:id="@+id/btn_reset"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="重置" />
 
@@ -23,12 +23,19 @@
         android:layout_height="match_parent"
         android:background="#99dddddd" >
 
-        <TextView
-            android:id="@+id/tv_tag"
-            android:background="#999188f0"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tv_tag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#999188f0"
+                android:ellipsize="none"
+                android:text="@string/very_long_test" />
+        </LinearLayout>
     </com.etao.test.widget.BounceView>
 
 </LinearLayout>

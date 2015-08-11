@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <item name="android:colorEdgeEffect">#FFFF0000</item>
+    </style>
+
+    <style name="v5_edgeEffect">
+        <item name="android:colorEdgeEffect">#FFFF0000</item>
+    </style>
+
+</resources>
