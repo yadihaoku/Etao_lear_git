@@ -168,9 +168,7 @@ public class BounceView extends FrameLayout {
 		super.draw(canvas);
 		if (mEdgeTop != null) {
 			int scrollY = getScrollY();
-			System.out.println("draw edge  ");
 			if (!mEdgeTop.isFinished()) {
-				System.out.println("draw edge  now...");
 
 				final int restroeCount = canvas.save();
 				final int mPaddingLeft = getPaddingLeft();
@@ -223,7 +221,7 @@ public class BounceView extends FrameLayout {
 
 			ViewCompat.postInvalidateOnAnimation(this);
 		} else {
-			System.out.println("st finish");
+			//
 		}
 		awakenScrollBars();
 	}
@@ -242,7 +240,6 @@ public class BounceView extends FrameLayout {
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-		System.out.println(" trigger onMeasure  ");
 	}
 
 	@Override
@@ -349,15 +346,12 @@ public class BounceView extends FrameLayout {
 			// final int oldX = getScrollX();
 			// final int oldY = getScrollY();
 			scrollTo(scrollX, scrollY);
-
-			System.out.println("st false  " + scrollX + "x" + scrollY + "  clampedY = " + clampedY);
 			// invalidateParentIfNeeded();
 			// onScrollChanged(mScrollX, mScrollY, oldX, oldY);
 			// if (clampedY) {
 			// mScroller.springBack(scrollX, scrollY, 0, 0, 30, 0);
 			// }
 		} else {
-			System.out.println("st true  " + scrollX + "x" + scrollY);
 			super.scrollTo(scrollX, scrollY);
 		}
 
@@ -447,6 +441,7 @@ public class BounceView extends FrameLayout {
 		switch (currentAction) {
 		case MotionEvent.ACTION_DOWN:
 			mLastDownY = (int) event.getY();
+			System.out.println(" action down");
 			break;
 		case MotionEvent.ACTION_MOVE: {
 			int downY = (int) event.getY();
@@ -468,7 +463,7 @@ public class BounceView extends FrameLayout {
 			}
 
 			if (mIsBeginDragged) {
-				Log.i(Tag, " touch move =" + downY);
+//				Log.i(Tag, " touch move =" + downY);
 				if(overScrollBy(0, deltaY, 0, getScrollY(), 0, getScrollVerticalRange(), 0, getHeight() / 2, false)){
 					//如果 已经溢出边界，清除  velocity  
 					mVelocity.clear();
@@ -487,6 +482,9 @@ public class BounceView extends FrameLayout {
 		}
 			break;
 
+		case MotionEvent.ACTION_POINTER_DOWN:
+			
+			break;
 		case MotionEvent.ACTION_POINTER_UP:
 
 			break;
@@ -497,7 +495,6 @@ public class BounceView extends FrameLayout {
 			int scrollY = getScrollY();
 			//如果 滑动的速度，大于最小可滑动的最小速度
 			if(Math.abs(velocity) > mMinVerticaFillinglVelocity){
-				System.out.println("================fling   "+ velocity);
 				fling(-velocity);
 			}else if (scrollY < 0 || scrollY > getScrollVerticalRange()) {
 				int realScrollY = clamp(scrollY, getHeight(), getChildAt(0).getHeight());
@@ -533,12 +530,16 @@ public class BounceView extends FrameLayout {
 					0, 0,
 					// 最小 y, 
 					/**
-					 * |------ me ------| |--- child ----|
+					 * |------ me ------| 
+					 * |--- child ----|
+					 * |--最小为 0
 					 */
 					0,
 					/**
-					 * 最大 y |------ me ------| |----------child------------| |--
-					 * maxY --|
+					 * 最大 y
+					 *  |------ me ------|
+					 *  |----------child---------------| 
+					 * 					 |--	maxY --|
 					 */
 					Math.max(0, bottom - height), 0, height / 4);
 

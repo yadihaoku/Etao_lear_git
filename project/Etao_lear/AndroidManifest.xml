@@ -7,19 +7,36 @@
         android:minSdkVersion="8"
         android:targetSdkVersion="19" />
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" >
+    </uses-permission>
+
     <application
         android:allowBackup="true"
         android:hardwareAccelerated="true"
-        android:theme="@style/AppTheme"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" >
-        <activity
-            android:name="com.etao.test.ScrollerActivity" >
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="55c9eee567e58e1f6600020d" >
+        </meta-data>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="YanYadi" />
+
+        <activity android:name="com.etao.test.ScrollerActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name="com.etao.test.ReportErrorActivity" android:process=":report_error_process" >
         </activity>
     </application>
 
