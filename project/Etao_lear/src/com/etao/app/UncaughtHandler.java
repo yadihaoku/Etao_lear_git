@@ -50,6 +50,7 @@ public class UncaughtHandler implements UncaughtExceptionHandler {
 		if (!handlerException(ex) && mDefaultExcetpionHandler != null) {
 			mDefaultExcetpionHandler.uncaughtException(thread, ex);
 		} else {
+			ex.printStackTrace();
 			Process.killProcess(Process.myPid());
 		}
 	}

@@ -8,6 +8,7 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.inputmethodservice.KeyboardView.OnKeyboardActionListener;
 import android.os.Bundle;
+import android.support.v4.widget.ScrollerCompat;
 import android.text.Editable;
 import android.text.InputType;
 import android.view.View;
@@ -47,6 +48,7 @@ public class BaseActivity extends Activity {
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE); 
         imm.hideSoftInputFromWindow(edit.getWindowToken(),0); 
         hideKeyPad(edit);
+        
 	}
 	/**
 	 * 在 editText 获取焦点时，不弹出 软键盘

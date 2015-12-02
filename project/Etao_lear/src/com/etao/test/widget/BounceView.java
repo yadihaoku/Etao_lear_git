@@ -3,42 +3,27 @@
  */
 package com.etao.test.widget;
 
-import java.io.Closeable;
-import java.lang.annotation.Documented;
-
-import android.R;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.SharedPreferences.Editor;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Paint.Style;
+import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.Drawable;
-import android.os.Message;
-import android.os.StrictMode;
-import android.os.Build.VERSION;
-import android.os.Build.VERSION_CODES;
 import android.support.v4.view.ViewCompat;
-import android.support.v4.view.ViewConfigurationCompat;
-import android.text.method.DigitsKeyListener;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewParent;
-import android.view.View.MeasureSpec;
-import android.view.ViewConfiguration;
-import android.view.ViewGroup.MarginLayoutParams;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.BounceInterpolator;
 import android.view.animation.Interpolator;
-import android.view.animation.OvershootInterpolator;
 import android.widget.EdgeEffect;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.OverScroller;
-import android.widget.ScrollView;
-import android.widget.Scroller;
 
 /**
  * @author YadiYan 2015年7月31日
@@ -49,12 +34,14 @@ public class BounceView extends FrameLayout {
 	/**
 	 * 
 	 */
-	private static final String Tag = BounceView.class.getName();
+	private static final String TAG = BounceView.class.getName();
 	private int mMinVerticaFillinglVelocity;
 	private int mMaxVerticalFillingVelocity;
 	private OverScroller mScroller;
 	private EdgeEffect mEdgeTop;
 	private VelocityTracker mVelocity;
+	
+	private Paint mOverPaint;
 
 	private Drawable mIcon;
 	/**
@@ -140,6 +127,10 @@ public class BounceView extends FrameLayout {
 		mIcon.setBounds(0, 0, 100, 100);
 		//初始化 overscroll 时的渐变图像
 		mEdgeTop = new EdgeEffect(getContext());
+		
+		mOverPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		mOverPaint.setColor(Color.BLUE);
+		mOverPaint.setStyle(Style.FILL);
 	}
 
 	private OnClickListener mClick = new OnClickListener() {
@@ -188,6 +179,20 @@ public class BounceView extends FrameLayout {
 		}
 	}
 
+	@Override
+	protected void onDraw(Canvas canvas) {
+		super.onDraw(canvas);
+		int scrollTop = getScrollY();
+		if(scrollTop < 0){
+			int saveCount = canvas.getSaveCount();
+			canvas.save();
+			canvas.translate(0, scrollTop);
+			canvas.drawRect(0, 0, getWidth(), -scrollTop,  mOverPaint);
+			
+			
+			canvas.restoreToCount(saveCount);
+		}
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -424,6 +429,9 @@ public class BounceView extends FrameLayout {
 			mVelocity = null;
 		}
 	}
+	
+	/* 当前 激活的 pointerID **/
+	private int mActivePointerId;
 
 	/*
 	 * 
@@ -441,10 +449,14 @@ public class BounceView extends FrameLayout {
 		switch (currentAction) {
 		case MotionEvent.ACTION_DOWN:
 			mLastDownY = (int) event.getY();
-			System.out.println(" action down");
+			
+            mActivePointerId = event.getPointerId(0);
+			Log.i(TAG, "first action_down  actionIndex = " + event.getActionIndex());
 			break;
 		case MotionEvent.ACTION_MOVE: {
-			int downY = (int) event.getY();
+			
+			int pointerIndex =	event.findPointerIndex(mActivePointerId);
+			int downY = (int) event.getY(pointerIndex);
 			int deltaY = mLastDownY - downY;
 			if (!mIsBeginDragged && Math.abs(deltaY) > mTouchSlop) {
 				mIsBeginDragged = true;
@@ -480,13 +492,35 @@ public class BounceView extends FrameLayout {
 			}
 
 		}
+		
+//			Log.i(TAG, " action move actionIndex = "+ event.getActionIndex() + "  ");
 			break;
 
 		case MotionEvent.ACTION_POINTER_DOWN:
+			// 取出 action 的索引
+			 
+			int actIndex = event.getActionIndex();
+			// 获取 pointerId
+			mActivePointerId = event.getPointerId(actIndex);
 			
+			mLastDownY = (int)event.getY(actIndex);
+			Log.i(TAG, " pointer down actionIndex = "+ event.getActionIndex() + "  ");
 			break;
 		case MotionEvent.ACTION_POINTER_UP:
-
+			
+			int upIndex = event.getActionIndex();
+			int upId = event.getPointerId(upIndex);
+			// 监听滑动的 手指离开屏幕
+			if(upId == mActivePointerId)
+			{
+				int newIndex = upIndex == 0 ? 1 : 0;
+				mActivePointerId = event.getPointerId(newIndex);
+				mLastDownY = (int)event.getY(newIndex);
+				
+				if(mVelocity!=null)
+					mVelocity = null;
+			}
+				Log.i(TAG, " pointer UP actionIndex = "+ event.getActionIndex() + "  "  + upId);
 			break;
 		case MotionEvent.ACTION_UP:
 			if(mIsBeginDragged){
@@ -503,6 +537,8 @@ public class BounceView extends FrameLayout {
 			}
 			endDrag();
 			}
+			
+			Log.i(TAG, " action UP actionIndex = "+ event.getActionIndex() + "  ");
 			break;
 		}
 		
